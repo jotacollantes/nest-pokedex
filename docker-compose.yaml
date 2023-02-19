@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pokedb:
+    image: mongo:6.0.1
+    restart: always
+    container_name: pokemon-container
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_DATABASE: nest-pokemon
+    volumes:
+    #La informacion de mongo se va a grabar en /mongo del filesystem del proyecto y en el filesystem de la imagen
+      - ./mongo:/data/db
