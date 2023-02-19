@@ -13,7 +13,9 @@ import { Pokemon, PokemonSchema } from './entities/pokemon.entity';
       name: Pokemon.name,
       schema: PokemonSchema
     }])
-  ]
+  ],
+  //*Exportamos el mongooseModule para que el servicio en el modulo seed lo pueda usar
+  exports:[MongooseModule]
 
 })
 export class PokemonModule {}
