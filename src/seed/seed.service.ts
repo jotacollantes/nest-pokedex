@@ -1,27 +1,37 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import axios, { AxiosInstance } from 'axios';
+
 import { Model } from 'mongoose';
+import { AxiosAdapter } from 'src/common/adapters/axios.adapter';
+
 import { Pokemon } from 'src/pokemon/entities/pokemon.entity';
 import { PokeInterface } from './interfaces/poke-response.interface';
 
 @Injectable()
 export class SeedService {
-  private readonly axios: AxiosInstance = axios;
+  //private readonly axios: AxiosInstance = axios;
 
   constructor(
     //*Inyectamos la dependencia del modelo o entidad con un decarador especifico de nest para mongoose
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
+
+    //*Inyectamos el adaptador de axios
+    private readonly http: AxiosAdapter
   ) {}
 
   async executeSeed() {
     //*Borramos todos los registros
     await this.pokemonModel.deleteMany()
 
-    const { data } = await this.axios.get<PokeInterface>(
+    // const { data } = await this.axios.get<PokeInterface>(
+    //   'https://pokeapi.co/api/v2/pokemon?limit=650',
+    // );
+
+    const data = await this.http.get<PokeInterface>(
       'https://pokeapi.co/api/v2/pokemon?limit=650',
     );
+
 
     //*Podemos hacer la insercion masiva con un arreglo de promesas y luego ejecutar el await Promise.all o con insertMany. En este caso usamos insertMany
     //const arrayPromises:any=[]

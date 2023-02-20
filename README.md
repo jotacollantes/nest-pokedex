@@ -18,8 +18,16 @@ yarn global add @nestjs/cli
 ```
 docker-compose up -d
 ```
+5. Clonar el archivo __.env.template__ y renombrar a __.env__
 
-5. Reconstruir base de datos
+6. llenar lar variables de entorno en el ```.env```
+
+7. Ejecutar la aplicacion con:
+```
+yarn start:dev
+```
+
+8. Reconstruir base de datos
 ```
 http://localhost:3000/api/v2/seed
 ```
@@ -28,3 +36,10 @@ http://localhost:3000/api/v2/seed
 NestJS
 
 MongoDB
+
+# Notas
+Heroku redeploy sin cambios:
+```
+git commit --allow-empty -m "Trigger Heroki deploy"
+git push heroku main
+```

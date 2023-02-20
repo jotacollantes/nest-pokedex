@@ -9,10 +9,15 @@ async function bootstrap() {
   app.useGlobalPipes(  
     new ValidationPipe({ 
       whitelist: true, 
-      forbidNonWhitelisted: true, 
+      forbidNonWhitelisted: true,
+      //*Para que haga la transformacion de la informacion que fluya en los DTO
+       transform:true,
+       transformOptions:{enableImplicitConversion:true}
     }) 
   );
 
-  await app.listen(3000);
+   //* como el Main no esta dentro de un building block, no tiene acceso a las variables de entorno provistas por el ConfigModule
+  await app.listen(process.env.PORT);
+  console.log(`App running on port ${process.env.PORT}`)
 }
 bootstrap();

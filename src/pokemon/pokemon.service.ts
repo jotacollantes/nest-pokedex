@@ -4,25 +4,41 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { InjectModel } from '@nestjs/mongoose';
 import { isValidObjectId, Model } from 'mongoose';
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 import { CreatePokemonDto } from './dto/create-pokemon.dto';
 import { UpdatePokemonDto } from './dto/update-pokemon.dto';
 import { Pokemon } from './entities/pokemon.entity';
 
 @Injectable()
 export class PokemonService {
+  private defaultLimit:number
   constructor(
     //*Inyectamos la dependencia del modelo o entidad con un decarador especifico de nest para mongoose
     @InjectModel(Pokemon.name)
     private readonly pokemonModel: Model<Pokemon>,
-  ) {}
+    //*Inyectamos el config service qure tiene las variables de entorno.
+    private readonly configService: ConfigService
+
+  ) {
+    //console.log(process.env.DEFAULT_LIMIT)
+    this.defaultLimit=configService.get<number>('defaultLimit')
+    //console.log({this.defaultLimit})
+  }
 
   
 
-  async findAll() {
+  async findAll(paginationDto:PaginationDto) {
     //return `This action returns all pokemon`;
-    return await this.pokemonModel.find();
+    const {limit=this.defaultLimit,offset}=paginationDto
+    return await this.pokemonModel.find().
+    limit(limit).
+    skip(offset).
+    //*Ordenamos por el campo no de forma asc
+    sort({no : 1}).
+    select('-__v');
   }
 
   async findOne(term: string) {
