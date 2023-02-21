@@ -18,6 +18,6 @@ async function bootstrap() {
 
    //* como el Main no esta dentro de un building block, no tiene acceso a las variables de entorno provistas por el ConfigModule
   await app.listen(process.env.PORT);
-  console.log(`App running on port ${process.env.PORT}`)
+  console.log(`Corriendo en el puerto ${process.env.PORT}`)
 }
 bootstrap();

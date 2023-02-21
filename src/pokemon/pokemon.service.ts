@@ -24,6 +24,7 @@ export class PokemonService {
 
   ) {
     //console.log(process.env.DEFAULT_LIMIT)
+    
     this.defaultLimit=configService.get<number>('defaultLimit')
     //console.log({this.defaultLimit})
   }
