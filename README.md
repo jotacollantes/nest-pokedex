@@ -56,3 +56,8 @@ Heroku redeploy sin cambios:
 git commit --allow-empty -m "Trigger Heroki deploy"
 git push heroku main
 ```
+
+Crear imagen de Docker sin build de produccion y detach:
+````
+docker-compose -f docker-compose.prod.yaml --env-file .env.prod up -d
+````
